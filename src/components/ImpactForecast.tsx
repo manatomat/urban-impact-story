@@ -10,9 +10,16 @@ interface AsteroidData {
   composition: string;
 }
 
-interface ImpactForecastProps {
+export interface ImpactForecastProps {
   asteroid: AsteroidData;
   city: City;
+}
+
+export interface ImpactData {
+  casualties: number;
+  injured: number;
+  affectedPopulation: number;
+  economicDamage: number;
 }
 
 const calculateImpact = (asteroid: AsteroidData, city: City) => {
@@ -37,23 +44,29 @@ const calculateImpact = (asteroid: AsteroidData, city: City) => {
   
   // Damage zones based on overpressure effects (in km)
   // Total destruction: >50 psi overpressure
-  const totalDestructionRadius = Math.pow(energyMegatons, 0.33) * 1.2;
+  const totalDestructionRadiusKm = Math.pow(energyMegatons, 0.33) * 1.2;
   // Severe destruction: 20-50 psi
-  const severeDestructionRadius = Math.pow(energyMegatons, 0.33) * 2.0;
+  const severeDestructionRadiusKm = Math.pow(energyMegatons, 0.33) * 2.0;
   // Moderate damage: 5-20 psi
-  const moderateDamageRadius = Math.pow(energyMegatons, 0.33) * 4.0;
+  const moderateDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 4.0;
   // Mild damage: 1-5 psi
-  const mildDamageRadius = Math.pow(energyMegatons, 0.33) * 8.0;
+  const mildDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 8.0;
+  
+  // Convert to miles
+  const totalDestructionRadius = totalDestructionRadiusKm * 0.621371;
+  const severeDestructionRadius = severeDestructionRadiusKm * 0.621371;
+  const moderateDamageRadius = moderateDamageRadiusKm * 0.621371;
+  const mildDamageRadius = mildDamageRadiusKm * 0.621371;
   
   // Population density per km² (rough estimate based on city area)
   const cityAreaKm2 = 1000; // approximate urban area
   const popDensity = city.population / cityAreaKm2;
   
   // Calculate casualties by zone
-  const totalDestructionArea = Math.PI * Math.pow(totalDestructionRadius, 2);
-  const severeDestructionArea = Math.PI * (Math.pow(severeDestructionRadius, 2) - Math.pow(totalDestructionRadius, 2));
-  const moderateDamageArea = Math.PI * (Math.pow(moderateDamageRadius, 2) - Math.pow(severeDestructionRadius, 2));
-  const mildDamageArea = Math.PI * (Math.pow(mildDamageRadius, 2) - Math.pow(moderateDamageRadius, 2));
+  const totalDestructionArea = Math.PI * Math.pow(totalDestructionRadiusKm, 2);
+  const severeDestructionArea = Math.PI * (Math.pow(severeDestructionRadiusKm, 2) - Math.pow(totalDestructionRadiusKm, 2));
+  const moderateDamageArea = Math.PI * (Math.pow(moderateDamageRadiusKm, 2) - Math.pow(severeDestructionRadiusKm, 2));
+  const mildDamageArea = Math.PI * (Math.pow(mildDamageRadiusKm, 2) - Math.pow(moderateDamageRadiusKm, 2));
   
   // Casualty rates by zone
   const totalDestructionDeaths = Math.floor(totalDestructionArea * popDensity * 0.95); // 95% fatality
@@ -82,6 +95,10 @@ const calculateImpact = (asteroid: AsteroidData, city: City) => {
   const gdpLoss = city.gdp * 0.4; // 40% GDP loss in billions
   const totalDamageBillions = infrastructureDamage + gdpLoss;
 
+  // Environmental impact calculations
+  const burnRadiusMiles = mildDamageRadius * 1.5;
+  const forestFireAreaSqMiles = Math.PI * Math.pow(burnRadiusMiles, 2);
+
   // Format energy display
   const energyDisplay = energyMegatons >= 1 
     ? `${energyMegatons.toFixed(1)} MT`
@@ -92,6 +109,7 @@ const calculateImpact = (asteroid: AsteroidData, city: City) => {
     kineticEnergyJoules,
     energyDisplay,
     energyLabel,
+    energyMegatons,
     earthquakeMagnitude: earthquakeMagnitude.toFixed(1),
     craterDiameterFt: Math.round(craterDiameterFt).toLocaleString(),
     damageZones: {
@@ -118,6 +136,8 @@ const calculateImpact = (asteroid: AsteroidData, city: City) => {
     totalDamageBillions,
     infrastructureDamageBillions: infrastructureDamage,
     gdpLossBillions: gdpLoss,
+    burnRadiusMiles,
+    forestFireAreaSqMiles,
   };
 };
 

@@ -20,7 +20,7 @@ export const cities: City[] = [
   { name: "San Antonio", state: "TX", population: 1547253, gdp: 124, lat: 29.4241, lng: -98.4936 },
   { name: "San Diego", state: "CA", population: 1423851, gdp: 206, lat: 32.7157, lng: -117.1611 },
   { name: "Dallas", state: "TX", population: 1343573, gdp: 478, lat: 32.7767, lng: -96.7970 },
-  { name: "San Jose", state: "CA", population: 1021795, gdp: 295, lat: 37.3382, lng: -121.8863 },
+  { name: "Jacksonville", state: "FL", population: 949611, gdp: 89, lat: 30.3322, lng: -81.6557 },
 ];
 
 interface CitySelectorProps {
@@ -63,7 +63,9 @@ const CitySelector = ({ selectedCity, onCitySelect }: CitySelectorProps) => {
             <div className="space-y-1">
               <p className="text-muted-foreground text-sm uppercase tracking-wider">GDP</p>
               <p className="text-2xl font-bold text-foreground">
-                ${selectedCity.gdp}B
+                ${selectedCity.gdp >= 1000 
+                  ? `${(selectedCity.gdp / 1000).toFixed(2)}T` 
+                  : `${selectedCity.gdp}B`}
               </p>
             </div>
           </div>

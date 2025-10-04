@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import AsteroidGenerator from "@/components/AsteroidGenerator";
 import CitySelector, { City } from "@/components/CitySelector";
@@ -96,6 +96,49 @@ const Index = () => {
     }
   };
 
+  const impactData = useMemo(() => {
+    if (!asteroid || !selectedCity) return null;
+    
+    const velocityMs = (asteroid.velocity * 1000) / 3600;
+    const kineticEnergyJoules = 0.5 * asteroid.mass * Math.pow(velocityMs, 2);
+    const energyMegatons = kineticEnergyJoules / (4.184 * Math.pow(10, 15));
+    
+    const totalDestructionRadiusKm = Math.pow(energyMegatons, 0.33) * 1.2;
+    const severeDestructionRadiusKm = Math.pow(energyMegatons, 0.33) * 2.0;
+    const moderateDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 4.0;
+    const mildDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 8.0;
+    
+    const cityAreaKm2 = 1000;
+    const popDensity = selectedCity.population / cityAreaKm2;
+    
+    const totalDestructionArea = Math.PI * Math.pow(totalDestructionRadiusKm, 2);
+    const severeDestructionArea = Math.PI * (Math.pow(severeDestructionRadiusKm, 2) - Math.pow(totalDestructionRadiusKm, 2));
+    const moderateDamageArea = Math.PI * (Math.pow(moderateDamageRadiusKm, 2) - Math.pow(severeDestructionRadiusKm, 2));
+    const mildDamageArea = Math.PI * (Math.pow(mildDamageRadiusKm, 2) - Math.pow(moderateDamageRadiusKm, 2));
+    
+    const casualties = Math.floor(
+      totalDestructionArea * popDensity * 0.95 +
+      severeDestructionArea * popDensity * 0.65 +
+      moderateDamageArea * popDensity * 0.25 +
+      mildDamageArea * popDensity * 0.05
+    );
+    
+    const injured = Math.floor(
+      totalDestructionArea * popDensity * 0.05 * 2.5 +
+      severeDestructionArea * popDensity * 0.35 * 2.0 +
+      moderateDamageArea * popDensity * 0.75 * 1.5 +
+      mildDamageArea * popDensity * 0.95 * 0.8
+    );
+    
+    const affectedPopulation = Math.floor((totalDestructionArea + severeDestructionArea + moderateDamageArea + mildDamageArea) * popDensity);
+    
+    const infrastructureDamage = (totalDestructionArea * 2000 + severeDestructionArea * 1000 + moderateDamageArea * 300 + mildDamageArea * 50) / 1000;
+    const gdpLoss = selectedCity.gdp * 0.4;
+    const economicDamage = infrastructureDamage + gdpLoss;
+    
+    return { casualties, injured, affectedPopulation, economicDamage };
+  }, [asteroid, selectedCity]);
+
   return (
     <div className="min-h-screen bg-gradient-space">
       {/* Hero Section */}
@@ -153,11 +196,16 @@ const Index = () => {
         )}
 
         {/* Impact Forecast */}
-        {showForecast && asteroid && selectedCity && (
+        {showForecast && asteroid && selectedCity && impactData && (
           <div className="mt-12 space-y-8 animate-in fade-in duration-1000">
             <ImpactForecast asteroid={asteroid} city={selectedCity} />
             <ImpactComparison asteroid={asteroid} selectedCity={selectedCity} />
-            <ImpactTimeline />
+            <ImpactTimeline 
+              casualties={impactData.casualties}
+              injured={impactData.injured}
+              affectedPopulation={impactData.affectedPopulation}
+              economicDamage={impactData.economicDamage}
+            />
           </div>
         )}
 

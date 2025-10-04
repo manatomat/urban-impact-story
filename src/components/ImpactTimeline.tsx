@@ -9,82 +9,93 @@ interface TimelineEvent {
   severity: "critical" | "high" | "medium" | "recovery";
 }
 
-const ImpactTimeline = () => {
+interface ImpactTimelineProps {
+  casualties: number;
+  injured: number;
+  affectedPopulation: number;
+  economicDamage: number;
+}
+
+const ImpactTimeline = ({ casualties, injured, affectedPopulation, economicDamage }: ImpactTimelineProps) => {
+  const formatDamage = economicDamage >= 1000 
+    ? `$${(economicDamage / 1000).toFixed(2)} trillion` 
+    : `$${economicDamage.toFixed(2)} billion`;
+
   const events: TimelineEvent[] = [
     {
       time: "T+0 seconds",
       title: "Impact",
-      description: "Asteroid strikes with devastating force. Immediate vaporization at ground zero. Shockwave begins propagating.",
+      description: `Asteroid strikes with devastating force. Immediate vaporization creates a blast crater. Shockwave propagates outward at supersonic speeds, carrying **${Math.floor(casualties * 0.4).toLocaleString()}** instant fatalities in the total destruction zone.`,
       icon: <AlertTriangle className="h-5 w-5" />,
       severity: "critical"
     },
     {
       time: "T+1 minute",
       title: "Initial Destruction Wave",
-      description: "Blast wave reaches maximum casualties zone. Buildings within total destruction radius collapse. Firestorms ignite.",
+      description: `Blast wave reaches severe destruction radius. Buildings collapse killing **${Math.floor(casualties * 0.35).toLocaleString()}** more people. Firestorms ignite across impact zone. **${Math.floor(injured * 0.3).toLocaleString()}** people sustain critical injuries from flying debris and structural collapse.`,
       icon: <AlertTriangle className="h-5 w-5" />,
       severity: "critical"
     },
     {
       time: "T+10 minutes",
       title: "Secondary Effects Cascade",
-      description: "Fires spread rapidly. Infrastructure failures across power, water, and communications. Emergency services overwhelmed.",
+      description: `Fires spread rapidly through damaged structures. Infrastructure failures cascade across power, water, and communications networks. Emergency services overwhelmed with **${Math.floor(injured * 0.5).toLocaleString()}** injured requiring immediate medical attention. Additional **${Math.floor(casualties * 0.15).toLocaleString()}** deaths from building collapses and fires.`,
       icon: <AlertTriangle className="h-5 w-5" />,
       severity: "critical"
     },
     {
       time: "T+1 hour",
-      title: "Regional Impact",
-      description: "Dust cloud begins rising. Severe destruction zone fully impacted. Roads impassable. Hospitals at capacity.",
+      title: "Regional Impact Expands",
+      description: `Dust cloud rises **15-20 miles** into atmosphere. Moderate and mild damage zones fully impacted. Roads impassable with debris. Hospitals at **300%** capacity, unable to treat **${Math.floor(injured * 0.7).toLocaleString()}** wounded. Final death toll from immediate impact reaches **${casualties.toLocaleString()}**.`,
       icon: <Home className="h-5 w-5" />,
       severity: "high"
     },
     {
       time: "T+6 hours",
       title: "Emergency Response Mobilization",
-      description: "Federal disaster declaration. National Guard deployed. Search and rescue operations begin in accessible areas.",
+      description: `Federal disaster declaration issued. National Guard deploying **15,000** troops to affected region. Search and rescue operations begin in accessible outer zones. **${Math.floor(affectedPopulation * 0.4).toLocaleString()}** people confirmed displaced and seeking shelter.`,
       icon: <Heart className="h-5 w-5" />,
       severity: "high"
     },
     {
       time: "T+1 day",
-      title: "Humanitarian Crisis",
-      description: "Millions displaced. Temporary shelters established. Medical supply shortages. Water contamination widespread.",
+      title: "Humanitarian Crisis Escalates",
+      description: `**${Math.floor(affectedPopulation * 0.6).toLocaleString()}** people displaced from homes. Temporary shelters established for **${Math.floor(affectedPopulation * 0.35).toLocaleString()}** survivors. Critical medical supply shortages. Water contamination affects **${Math.floor(affectedPopulation * 0.8).toLocaleString()}** people. Secondary deaths from untreated injuries reach **${Math.floor(casualties * 0.08).toLocaleString()}**.`,
       icon: <Heart className="h-5 w-5" />,
       severity: "high"
     },
     {
       time: "T+1 week",
-      title: "Atmospheric Effects",
-      description: "Dust and debris in atmosphere causing regional temperature drops. Agricultural impact begins. Supply chain disruptions.",
+      title: "Atmospheric Effects Intensify",
+      description: `Dust and debris in atmosphere blocking **30-40%** of sunlight across **${Math.floor(affectedPopulation / 50000)} state** region. Temperature drops by **7°F** regionally. Agricultural impact begins affecting food supply chains. Supply chain disruptions cost **$${Math.floor(economicDamage * 0.15).toFixed(1)} billion** in first week.`,
       icon: <AlertTriangle className="h-5 w-5" />,
       severity: "medium"
     },
     {
       time: "T+1 month",
       title: "Economic Shockwave",
-      description: "Markets react. Insurance claims processing. Unemployment spikes. Reconstruction planning begins.",
+      description: `Financial markets react with **$${Math.floor(economicDamage * 0.3).toFixed(1)} billion** in immediate losses. Insurance claims processing begins for **${Math.floor(affectedPopulation * 0.25).toLocaleString()}** affected properties. Regional unemployment spikes by **${Math.floor((casualties + injured) * 2).toLocaleString()}** jobs lost. Reconstruction cost estimates reach **${formatDamage}**.`,
       icon: <TrendingUp className="h-5 w-5" />,
       severity: "medium"
     },
     {
       time: "T+3 months",
-      title: "Early Recovery Phase",
-      description: "Debris removal ongoing. Temporary infrastructure restored in outer zones. Population resettlement programs established.",
+      title: "Early Recovery Phase Begins",
+      description: `Debris removal ongoing, **${Math.floor(casualties * 0.5).toLocaleString()}** bodies still unrecovered. Temporary infrastructure restored in outer zones serving **${Math.floor(affectedPopulation * 0.4).toLocaleString()}** people. Population resettlement programs established. **${Math.floor(affectedPopulation * 0.55).toLocaleString()}** people still in temporary housing.`,
       icon: <Home className="h-5 w-5" />,
       severity: "recovery"
     },
     {
       time: "T+6 months",
-      title: "Reconstruction Begins",
-      description: "Major reconstruction contracts awarded. Power grid partially restored. Schools reopen in unaffected areas.",
+      title: "Reconstruction Accelerates",
+      description: `Major reconstruction contracts awarded totaling **$${Math.floor(economicDamage * 0.4).toFixed(1)} billion**. Power grid **40%** restored. **${Math.floor(affectedPopulation * 0.12).toLocaleString()}** students return to reopened schools in unaffected areas. Economic activity at **35%** of pre-impact levels, still **$${Math.floor(economicDamage * 0.45).toFixed(1)} billion** below normal.`,
       icon: <TrendingUp className="h-5 w-5" />,
       severity: "recovery"
     },
     {
       time: "T+1 year",
-      title: "Long-term Recovery",
-      description: "30% of damaged infrastructure rebuilt. Economic activity at 60% of pre-impact levels. Environmental cleanup continues.",
+      title: "Long-term Recovery Continues",
+      description: `**30%** of damaged infrastructure rebuilt. **${Math.floor(affectedPopulation * 0.35).toLocaleString()}** people resettled into permanent housing. Economic activity recovers to **60%** of pre-impact levels. Environmental cleanup continues with **${formatDamage}** spent on recovery. Death toll from long-term health effects reaches **${Math.floor(casualties * 1.12).toLocaleString()}**. Full recovery estimated to take **10-15 years**.`,
       icon: <TrendingUp className="h-5 w-5" />,
       severity: "recovery"
     }
@@ -120,6 +131,21 @@ const ImpactTimeline = () => {
     }
   };
 
+  // Helper function to bold numbers in descriptions
+  const renderDescription = (description: string) => {
+    const parts = description.split(/(\*\*.*?\*\*)/g);
+    return (
+      <>
+        {parts.map((part, index) => {
+          if (part.startsWith('**') && part.endsWith('**')) {
+            return <span key={index} className="font-bold text-foreground">{part.slice(2, -2)}</span>;
+          }
+          return part;
+        })}
+      </>
+    );
+  };
+
   return (
     <Card className="p-6 bg-card border-border">
       <div className="flex items-center gap-3 mb-6">
@@ -129,7 +155,7 @@ const ImpactTimeline = () => {
         </h3>
       </div>
       <p className="text-muted-foreground mb-6">
-        Projected sequence of events following asteroid impact over a 12-month period
+        Detailed sequence of events following asteroid impact over a 12-month period, with projected casualties and economic losses
       </p>
       
       <div className="relative">
@@ -157,8 +183,8 @@ const ImpactTimeline = () => {
                   <h4 className="text-lg font-bold text-foreground mb-2">
                     {event.title}
                   </h4>
-                  <p className="text-sm text-muted-foreground">
-                    {event.description}
+                  <p className="text-sm text-muted-foreground leading-relaxed">
+                    {renderDescription(event.description)}
                   </p>
                 </div>
               </div>
