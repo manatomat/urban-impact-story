@@ -37,7 +37,7 @@ const AsteroidGenerator = ({ asteroid, onGenerate }: AsteroidGeneratorProps) => 
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Velocity</p>
-            <p className="text-3xl font-bold text-primary">{(asteroid.velocity * 0.621371).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} mp/h</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.velocity * 0.621371).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} mph</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Mass</p>
@@ -45,7 +45,7 @@ const AsteroidGenerator = ({ asteroid, onGenerate }: AsteroidGeneratorProps) => 
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Density</p>
-            <p className="text-3xl font-bold text-primary">{asteroid.density.toFixed(2)} g/cm³</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.density * 62.428).toFixed(1)} lb/ft³</p>
           </div>
           <div className="space-y-2 col-span-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Composition</p>

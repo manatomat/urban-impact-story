@@ -177,14 +177,17 @@ const Index = () => {
           <div className="inline-flex items-center px-4 py-2 bg-primary/20 border border-primary/50 rounded-full mb-6">
             <Shield className="h-5 w-5 text-primary mr-2" />
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">
-              NASA Planetary Defense
+              2025 NASA Space Apps Challenge: Meteor Madness
             </span>
           </div>
           <h1 className="text-5xl md:text-7xl font-bold text-foreground mb-4">
             Asteroid Impact Simulator
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl">
+          <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mb-3">
             Understanding the catastrophic consequences of near-Earth object impacts on major US cities
+          </p>
+          <p className="text-lg text-muted-foreground/80 italic">
+            By: Manato Matsuoka and Sam Woody
           </p>
         </div>
       </div>
@@ -245,25 +248,31 @@ const Index = () => {
 
         {/* Call to Action */}
         {showForecast && (
-          <div className="mt-16 p-8 bg-card border-2 border-primary/50 rounded-lg text-center">
-            <h3 className="text-2xl font-bold text-foreground mb-4">
+          <div className="mt-16 p-12 bg-gradient-to-br from-primary/30 via-card to-primary/20 border-4 border-primary rounded-2xl text-center shadow-2xl shadow-primary/20">
+            <div className="inline-block p-4 bg-primary/20 rounded-full mb-6">
+              <Shield className="h-12 w-12 text-primary" />
+            </div>
+            <h3 className="text-4xl md:text-5xl font-black text-foreground mb-6 tracking-tight">
               Planetary Defense is Critical
             </h3>
-            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
+            <p className="text-xl md:text-2xl text-foreground/90 mb-8 max-w-3xl mx-auto leading-relaxed font-medium">
               These scenarios are not science fiction. Investment in detection systems, deflection
               technologies, and emergency response planning is essential to protect our cities and
               our future.
             </p>
-            <Button
-              onClick={() => {
-                setShowForecast(false);
-                generateAsteroid();
-                setSelectedCity(null);
-              }}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              Run Another Simulation
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button
+                onClick={() => {
+                  setShowForecast(false);
+                  generateAsteroid();
+                  setSelectedCity(null);
+                }}
+                size="lg"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 shadow-lg"
+              >
+                Run Another Simulation
+              </Button>
+            </div>
           </div>
         )}
       </div>

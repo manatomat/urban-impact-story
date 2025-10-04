@@ -24,16 +24,19 @@ const EnvironmentalImpact = ({
 }: EnvironmentalImpactProps) => {
   return (
     <Card className="p-6 bg-card border-border">
-      <h3 className="text-lg font-bold text-foreground mb-4">Environmental & Ecological Impact</h3>
+      <h3 className="text-2xl font-bold text-foreground mb-6 text-center">Environmental & Ecological Impact</h3>
+      <p className="text-muted-foreground text-center mb-6 max-w-3xl mx-auto">
+        The asteroid's impact extends far beyond immediate destruction, triggering cascading environmental disasters that persist for decades.
+      </p>
       
       <div className="space-y-6">
         {/* Atmospheric Impact */}
-        <div>
-          <h4 className="text-md font-semibold text-foreground mb-2 flex items-center gap-2">
-            <span className="text-primary">•</span>
+        <div className="bg-muted/20 p-5 rounded-lg border border-border">
+          <h4 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+            <span className="text-primary text-2xl">☁️</span>
             Atmospheric & Air Quality Effects
           </h4>
-          <div className="pl-6 space-y-2 text-muted-foreground">
+          <div className="space-y-3 text-muted-foreground">
             <p>
               <span className="font-bold text-foreground">Short-term (Days to Weeks):</span> Massive ejection of <span className="font-bold text-foreground">{Math.floor(energyMegatons * 50)} million tons</span> of dust, debris, and vaporized material into the atmosphere. Air quality index reaches hazardous levels (AQI 500+) within <span className="font-bold text-foreground">{parseFloat(damageZones.mildDamage) * 100}</span> miles. Thermal radiation from impact creates temperatures exceeding <span className="font-bold text-foreground">3,000°F</span> at ground zero, igniting everything combustible and producing toxic smoke plumes visible from space.
             </p>
@@ -47,12 +50,12 @@ const EnvironmentalImpact = ({
         </div>
 
         {/* Wildfire and Burn Radius */}
-        <div>
-          <h4 className="text-md font-semibold text-foreground mb-2 flex items-center gap-2">
-            <span className="text-primary">•</span>
+        <div className="bg-muted/20 p-5 rounded-lg border border-border">
+          <h4 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+            <span className="text-primary text-2xl">🔥</span>
             Wildfire Spread & Vegetation Loss
           </h4>
-          <div className="pl-6 space-y-2 text-muted-foreground">
+          <div className="space-y-3 text-muted-foreground">
             <p>
               Thermal radiation ignites fires across a <span className="font-bold text-foreground">{burnRadiusMiles.toFixed(1)}-mile</span> radius from impact point, covering approximately <span className="font-bold text-foreground">{forestFireAreaSqMiles.toFixed(0)} square miles</span>. Urban fires merge into massive firestorms generating winds exceeding <span className="font-bold text-foreground">100 mph</span>, spreading flames to areas that initially survived the blast. Total loss of <span className="font-bold text-foreground">{Math.floor(forestFireAreaSqMiles * 0.4)} square miles</span> of urban green spaces, parks, and vegetation.
             </p>
@@ -63,12 +66,12 @@ const EnvironmentalImpact = ({
         </div>
 
         {/* Wildlife and Biodiversity */}
-        <div>
-          <h4 className="text-md font-semibold text-foreground mb-2 flex items-center gap-2">
-            <span className="text-primary">•</span>
+        <div className="bg-muted/20 p-5 rounded-lg border border-border">
+          <h4 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+            <span className="text-primary text-2xl">🦅</span>
             Wildlife Mortality & Species at Risk
           </h4>
-          <div className="pl-6 space-y-2 text-muted-foreground">
+          <div className="space-y-3 text-muted-foreground">
             <p>
               <span className="font-bold text-foreground">Immediate Impact Zone:</span> Near-total extinction of all wildlife within <span className="font-bold text-foreground">{damageZones.severeDestruction}</span> miles of impact. Estimated <span className="font-bold text-foreground">{Math.floor(parseFloat(damageZones.severeDestruction) * 50000).toLocaleString()}</span> birds, <span className="font-bold text-foreground">{Math.floor(parseFloat(damageZones.severeDestruction) * 15000).toLocaleString()}</span> mammals, and countless reptiles, amphibians, and insects killed instantly by blast overpressure and thermal radiation.
             </p>
@@ -82,12 +85,12 @@ const EnvironmentalImpact = ({
         </div>
 
         {/* Long-term Environmental Effects */}
-        <div>
-          <h4 className="text-md font-semibold text-foreground mb-2 flex items-center gap-2">
-            <span className="text-primary">•</span>
+        <div className="bg-muted/20 p-5 rounded-lg border border-border">
+          <h4 className="text-lg font-bold text-foreground mb-3 flex items-center gap-2">
+            <span className="text-primary text-2xl">☢️</span>
             Long-term Environmental Degradation
           </h4>
-          <div className="pl-6 space-y-2 text-muted-foreground">
+          <div className="space-y-3 text-muted-foreground">
             <p>
               <span className="font-bold text-foreground">Urban Dead Zone:</span> Impact crater and immediate surroundings (<span className="font-bold text-foreground">{damageZones.totalDestruction} miles</span>) rendered uninhabitable for <span className="font-bold text-foreground">decades</span>. Soil sterilized by extreme heat, contaminated with heavy metals and toxic compounds from vaporized buildings, vehicles, and industrial facilities. Groundwater in region contaminated with <span className="font-bold text-foreground">{Math.floor(parseFloat(damageZones.totalDestruction) * 800)}</span> different pollutants, making it unsafe for human consumption or agricultural use for <span className="font-bold text-foreground">50+ years</span>.
             </p>
