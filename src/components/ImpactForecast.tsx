@@ -427,68 +427,36 @@ const ImpactForecast = ({ asteroid, city }: ImpactForecastProps) => {
           </div>
         </div>
 
-        <div className="space-y-4 pt-4 border-t border-warning/30">
-          <h4 className="font-bold text-foreground text-lg mb-3">Critical Infrastructure Losses</h4>
+        <div className="space-y-5 pt-4 border-t border-warning/30">
+          <h4 className="font-bold text-foreground text-2xl mb-4">Critical Infrastructure Losses</h4>
           
-          <div className="grid md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Healthcare Systems</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 5000)}</span> hospitals completely destroyed or rendered inoperable</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 2000)}</span> medical clinics and urgent care facilities wiped out</li>
-                <li>• Emergency services infrastructure obliterated, <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 800)}</span> ambulances destroyed</li>
-                <li>• Critical medical equipment and pharmaceutical supplies lost, creating immediate life-threatening shortages affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 0.3).toLocaleString()}</span> patients with chronic conditions</li>
-              </ul>
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="bg-muted/20 p-4 rounded-lg">
+              <p className="text-lg font-bold text-foreground mb-3">Power & Utilities</p>
+              <p className="text-base text-muted-foreground">
+                <span className="font-bold text-foreground">{(impact.affectedPopulation * 1.5).toLocaleString()}</span> people lose power. Restoration takes <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 8)} months</span>. Water systems fail, affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 2.2).toLocaleString()}</span> people. Economic losses: <span className="font-bold text-foreground">${Math.floor(impact.energyMegatons * 15)} billion</span>.
+              </p>
             </div>
             
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Education Infrastructure</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 3000)}</span> schools and universities destroyed or severely damaged</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.18).toLocaleString()}</span> students permanently displaced from educational facilities</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.025).toLocaleString()}</span> teachers and educational staff killed or critically injured</li>
-                <li>• Academic year completely disrupted for entire metropolitan area, long-term educational setbacks for <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.22).toLocaleString()}</span> young people</li>
-              </ul>
+            <div className="bg-muted/20 p-4 rounded-lg">
+              <p className="text-lg font-bold text-foreground mb-3">Transportation</p>
+              <p className="text-base text-muted-foreground">
+                <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.severeDestruction) * 45)} miles</span> of highways destroyed. All bridges within <span className="font-bold text-foreground">{impact.damageZones.moderateDamage} miles</span> collapsed. Airports inoperable. Ground transportation paralyzed for months.
+              </p>
             </div>
             
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Government & Emergency Response</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• City hall and <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 15000)}</span> municipal buildings rendered unusable or completely destroyed</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 10000)}</span> fire stations obliterated, eliminating <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 150)}</span> fire trucks and equipment</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 8000)}</span> police stations destroyed, law enforcement capability reduced by <span className="font-bold text-foreground">75%</span></li>
-                <li>• Emergency 911 call centers and dispatch infrastructure knocked offline, preventing coordinated disaster response for <span className="font-bold text-foreground">48-72 hours</span></li>
-              </ul>
+            <div className="bg-muted/20 p-4 rounded-lg">
+              <p className="text-lg font-bold text-foreground mb-3">Healthcare</p>
+              <p className="text-base text-muted-foreground">
+                <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.severeDestruction) * 25)}</span> hospitals destroyed. <span className="font-bold text-foreground">{Math.floor(impact.casualties.total * 2.5).toLocaleString()}</span> need immediate care but only <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 1200)}</span> beds available. Critical supply shortages within 48 hours.
+              </p>
             </div>
             
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Transportation Networks</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• Major regional airport operations completely ceased, <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 30)}</span> aircraft destroyed or damaged</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 100)}</span> miles of roadways and highways destroyed or impassable from debris and structural collapse</li>
-                <li>• Public transit system rendered completely inoperable, affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 1.8).toLocaleString()}</span> daily commuters</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 50)}</span> bridges and overpasses collapsed, isolating entire neighborhoods and preventing evacuation routes</li>
-              </ul>
-            </div>
-            
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Utilities & Essential Services</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• Complete power grid failure affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 2.5).toLocaleString()}</span> people across the region, estimated <span className="font-bold text-foreground">6-12 months</span> for full restoration</li>
-                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.severeDestruction) * 15)}</span> water treatment plants destroyed or contaminated, creating immediate drinking water crisis</li>
-                <li>• Natural gas lines ruptured at <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 800)}</span> locations, triggering secondary explosions and fires covering <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 12)}</span> square miles</li>
-                <li>• Telecommunications infrastructure obliterated, <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 500)}</span> cell towers destroyed, cutting off <span className="font-bold text-foreground">{(impact.affectedPopulation * 1.5).toLocaleString()}</span> people from communication</li>
-              </ul>
-            </div>
-            
-            <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Business & Financial Sectors</p>
-              <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 500).toLocaleString()}</span> businesses completely destroyed, resulting in immediate unemployment for <span className="font-bold text-foreground">{(impact.casualties.total * 8).toLocaleString()}</span> workers</li>
-                <li>• Financial district and banking operations completely halted, freezing <span className="font-bold text-foreground">${(impact.totalDamageBillions * 15).toFixed(0)} billion</span> in daily transactions</li>
-                <li>• Regional economic activity reduced by <span className="font-bold text-foreground">80%</span> in first month, creating ripple effects across national supply chains</li>
-                <li>• Direct GDP loss of <span className="font-bold text-foreground">${impact.gdpLossBillions.toFixed(0)} billion</span> (40% of annual city GDP), with indirect losses potentially doubling this figure over following year</li>
-              </ul>
+            <div className="bg-muted/20 p-4 rounded-lg">
+              <p className="text-lg font-bold text-foreground mb-3">Business & Economy</p>
+              <p className="text-base text-muted-foreground">
+                <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 500).toLocaleString()}</span> businesses destroyed. Immediate unemployment for <span className="font-bold text-foreground">{(impact.casualties.total * 8).toLocaleString()}</span> workers. Economic activity reduced by <span className="font-bold text-foreground">80%</span> in first month. Direct GDP loss: <span className="font-bold text-foreground">${impact.gdpLossBillions.toFixed(0)} billion</span>.
+              </p>
             </div>
           </div>
         </div>
