@@ -5,6 +5,8 @@ import CitySelector, { City } from "@/components/CitySelector";
 import ImpactForecast from "@/components/ImpactForecast";
 import ImpactComparison from "@/components/ImpactComparison";
 import ImpactTimeline from "@/components/ImpactTimeline";
+import EnvironmentalImpact from "@/components/EnvironmentalImpact";
+import CityConclusion from "@/components/CityConclusion";
 import heroImage from "@/assets/asteroid-hero.jpg";
 import { Shield } from "lucide-react";
 
@@ -108,6 +110,12 @@ const Index = () => {
     const moderateDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 4.0;
     const mildDamageRadiusKm = Math.pow(energyMegatons, 0.33) * 8.0;
     
+    // Convert to miles
+    const totalDestructionRadius = totalDestructionRadiusKm * 0.621371;
+    const severeDestructionRadius = severeDestructionRadiusKm * 0.621371;
+    const moderateDamageRadius = moderateDamageRadiusKm * 0.621371;
+    const mildDamageRadius = mildDamageRadiusKm * 0.621371;
+    
     const cityAreaKm2 = 1000;
     const popDensity = selectedCity.population / cityAreaKm2;
     
@@ -136,7 +144,24 @@ const Index = () => {
     const gdpLoss = selectedCity.gdp * 0.4;
     const economicDamage = infrastructureDamage + gdpLoss;
     
-    return { casualties, injured, affectedPopulation, economicDamage };
+    const burnRadiusMiles = mildDamageRadius * 1.5;
+    const forestFireAreaSqMiles = Math.PI * Math.pow(burnRadiusMiles, 2);
+    
+    return { 
+      casualties, 
+      injured, 
+      affectedPopulation, 
+      economicDamage,
+      energyMegatons,
+      damageZones: {
+        totalDestruction: totalDestructionRadius.toFixed(2),
+        severeDestruction: severeDestructionRadius.toFixed(2),
+        moderateDamage: moderateDamageRadius.toFixed(2),
+        mildDamage: mildDamageRadius.toFixed(2),
+      },
+      burnRadiusMiles,
+      forestFireAreaSqMiles,
+    };
   }, [asteroid, selectedCity]);
 
   return (
@@ -206,6 +231,15 @@ const Index = () => {
               affectedPopulation={impactData.affectedPopulation}
               economicDamage={impactData.economicDamage}
             />
+            <EnvironmentalImpact 
+              energyMegatons={impactData.energyMegatons}
+              damageZones={impactData.damageZones}
+              affectedPopulation={impactData.affectedPopulation}
+              casualties={impactData.casualties}
+              burnRadiusMiles={impactData.burnRadiusMiles}
+              forestFireAreaSqMiles={impactData.forestFireAreaSqMiles}
+            />
+            <CityConclusion city={selectedCity} />
           </div>
         )}
 

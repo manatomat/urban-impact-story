@@ -15,13 +15,6 @@ export interface ImpactForecastProps {
   city: City;
 }
 
-export interface ImpactData {
-  casualties: number;
-  injured: number;
-  affectedPopulation: number;
-  economicDamage: number;
-}
-
 const calculateImpact = (asteroid: AsteroidData, city: City) => {
   // Convert velocity from km/h to m/s
   const velocityMs = (asteroid.velocity * 1000) / 3600;
@@ -139,6 +132,23 @@ const calculateImpact = (asteroid: AsteroidData, city: City) => {
     burnRadiusMiles,
     forestFireAreaSqMiles,
   };
+};
+
+const getCityConclusion = (cityName: string): string => {
+  const conclusions: { [key: string]: string } = {
+    "New York": "A 30-meter asteroid airburst over Manhattan could unleash energy equal to nearly a megaton of TNT, enough to flatten parts of Midtown, ignite fires, and injure hundreds of thousands. In the world's financial capital, that means not just loss of life, but collapse of critical markets, communication networks, and global trade. Protecting New York is protecting the heartbeat of the global economy. Investing in early-warning satellites and planetary-defense missions is cheaper than rebuilding Wall Street.",
+    "Los Angeles": "With dense urban sprawl, major ports, and massive daily traffic, Los Angeles would see catastrophic cascading failures if even a small asteroid exploded overhead. Fires could spread through hillsides and industrial zones, and disruptions to the Port of L.A. would ripple through U.S. supply chains. One missed rock could paralyze the nation's logistics and entertainment hub. Asteroid detection tech is national infrastructure protection.",
+    "Chicago": "An asteroid airburst over downtown Chicago could devastate the Loop, shatter windows across Lake Michigan, and knock out transport and energy grids that serve the entire Midwest. Chicago sits at the crossroads of U.S. commerce; tracking asteroids is a matter of keeping America's industrial heartland secure.",
+    "Houston": "For a city that fuels the country, a mid-sized asteroid could ignite refineries, contaminate waterways, and cripple the energy sector. A few seconds' warning might save thousands, but only if the detection systems exist. Houston's expertise in space makes it a natural leader in asteroid defense. Protecting the \"energy capital\" means investing in the technology to detect threats early.",
+    "Phoenix": "Though inland, Phoenix's rapid growth means more lives and infrastructure are exposed. A 0.7-megaton airburst could devastate the urban core and overwhelm emergency systems. Tracking asteroids isn't just a coastal concern. Cities like Phoenix show how urbanization has expanded humanity's vulnerability far inland.",
+    "Philadelphia": "With dense historic neighborhoods and critical East-Coast infrastructure, a local impact could erase centuries of culture and history overnight. Asteroid-tracking technology safeguards not only lives but also the heritage and identity of cities like Philadelphia, irreplaceable parts of human civilization.",
+    "San Antonio": "A small asteroid could destroy parts of the downtown area and damage nearby military installations that support U.S. defense operations. San Antonio's proximity to key military and aerospace facilities makes asteroid-tracking a matter of national security.",
+    "San Diego": "A coastal airburst could devastate naval bases, ports, and biotech hubs, with marine ecosystems and coastal neighborhoods taking heavy damage. For a major military and innovation center, defending against asteroids is defending America's Pacific gateway and its ocean ecology.",
+    "Dallas": "The dense downtown and corporate centers could suffer massive losses even from a moderate asteroid explosion. Infrastructure collapse would ripple through Texas's economy. Investment in asteroid-tracking tech is cheaper than losing a city's economic engine overnight, a matter of pragmatic risk management.",
+    "Jacksonville": "A riverfront or coastal impact could wipe out port facilities, damage military assets, and contaminate waterways. As a growing logistics and naval city, Jacksonville shows how mid-size impacts can have outsize national consequences, prevention is the only real defense."
+  };
+  
+  return conclusions[cityName] || "";
 };
 
 const ImpactForecast = ({ asteroid, city }: ImpactForecastProps) => {
@@ -259,19 +269,65 @@ const ImpactForecast = ({ asteroid, city }: ImpactForecastProps) => {
             <p className="font-bold text-foreground mb-2">Damage Zones</p>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-danger border-2 border-danger" />
-              <span className="text-foreground">Total Destruction: {impact.damageZones.totalDestruction} km radius</span>
+              <span className="text-foreground">Total Destruction: {impact.damageZones.totalDestruction} miles radius</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-danger/20 border-2 border-danger/80" />
-              <span className="text-foreground">Severe Destruction: {impact.damageZones.severeDestruction} km radius</span>
+              <span className="text-foreground">Severe Destruction: {impact.damageZones.severeDestruction} miles radius</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-warning/15 border-2 border-warning/70" />
-              <span className="text-foreground">Moderate Damage: {impact.damageZones.moderateDamage} km radius</span>
+              <span className="text-foreground">Moderate Damage: {impact.damageZones.moderateDamage} miles radius</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded-full bg-info/10 border-2 border-info/60" />
-              <span className="text-foreground">Mild Damage: {impact.damageZones.mildDamage} km radius</span>
+              <span className="text-foreground">Mild Damage: {impact.damageZones.mildDamage} miles radius</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Damage Zone Definitions */}
+        <div className="mt-6 space-y-4 bg-muted/30 p-4 rounded-lg">
+          <h4 className="font-bold text-foreground text-lg mb-3">Understanding the Damage Zones</h4>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-danger" />
+                <p className="text-sm font-semibold text-foreground">Total Destruction Zone</p>
+              </div>
+              <p className="text-sm text-muted-foreground pl-5">
+                Complete obliteration of all structures. Extreme overpressure (over 50 psi) causes instant collapse of reinforced buildings. Near-100% fatality rate for anyone in this zone. Ground is cratered and vaporized.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-danger/60" />
+                <p className="text-sm font-semibold text-foreground">Severe Destruction Zone</p>
+              </div>
+              <p className="text-sm text-muted-foreground pl-5">
+                Heavy structural damage to most buildings (20-50 psi overpressure). Multi-story buildings collapse, widespread fires. Very high casualty rate. Survivors face life-threatening injuries.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-warning" />
+                <p className="text-sm font-semibold text-foreground">Moderate Damage Zone</p>
+              </div>
+              <p className="text-sm text-muted-foreground pl-5">
+                Significant structural damage (5-20 psi overpressure). Residential buildings badly damaged, windows shattered. Many injuries from flying debris and collapsing structures. Infrastructure heavily damaged.
+              </p>
+            </div>
+            
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-info" />
+                <p className="text-sm font-semibold text-foreground">Mild Damage Zone</p>
+              </div>
+              <p className="text-sm text-muted-foreground pl-5">
+                Light to moderate structural damage (1-5 psi overpressure). Glass breakage, minor structural damage, injuries from flying glass and debris. Fires may start in some areas. Most people survive but many require medical attention.
+              </p>
             </div>
           </div>
         </div>
@@ -308,41 +364,45 @@ const ImpactForecast = ({ asteroid, city }: ImpactForecastProps) => {
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-danger/30">
-          <div className="space-y-1">
+          <div className="space-y-2">
             <p className="text-xs text-muted-foreground uppercase">Total Destruction Zone</p>
             <p className="text-2xl font-bold text-danger">{impact.casualties.totalDestruction.toLocaleString()}</p>
-            <p className="text-xs text-muted-foreground">Deaths (95% fatality)</p>
-            <p className="text-lg font-semibold text-warning mt-1">{impact.injuries.totalDestruction.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground mb-3">Deaths (95% fatality)</p>
+            
+            <p className="text-lg font-semibold text-warning mt-2">{impact.injuries.totalDestruction.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Injured</p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <p className="text-xs text-muted-foreground uppercase">Severe Destruction Zone</p>
             <p className="text-2xl font-bold text-danger/80">{impact.casualties.severeDestruction.toLocaleString()}</p>
-            <p className="text-xs text-muted-foreground">Deaths (65% fatality)</p>
-            <p className="text-lg font-semibold text-warning mt-1">{impact.injuries.severeDestruction.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground mb-3">Deaths (65% fatality)</p>
+            
+            <p className="text-lg font-semibold text-warning mt-2">{impact.injuries.severeDestruction.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Injured</p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <p className="text-xs text-muted-foreground uppercase">Moderate Damage Zone</p>
             <p className="text-2xl font-bold text-warning">{impact.casualties.moderateDamage.toLocaleString()}</p>
-            <p className="text-xs text-muted-foreground">Deaths (25% fatality)</p>
-            <p className="text-lg font-semibold text-warning mt-1">{impact.injuries.moderateDamage.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground mb-3">Deaths (25% fatality)</p>
+            
+            <p className="text-lg font-semibold text-warning mt-2">{impact.injuries.moderateDamage.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Injured</p>
           </div>
-          <div className="space-y-1">
+          <div className="space-y-2">
             <p className="text-xs text-muted-foreground uppercase">Mild Damage Zone</p>
             <p className="text-2xl font-bold text-info">{impact.casualties.mildDamage.toLocaleString()}</p>
-            <p className="text-xs text-muted-foreground">Deaths (5% fatality)</p>
-            <p className="text-lg font-semibold text-warning mt-1">{impact.injuries.mildDamage.toLocaleString()}</p>
+            <p className="text-xs text-muted-foreground mb-3">Deaths (5% fatality)</p>
+            
+            <p className="text-lg font-semibold text-warning mt-2">{impact.injuries.mildDamage.toLocaleString()}</p>
             <p className="text-xs text-muted-foreground">Injured</p>
           </div>
         </div>
         
-        <div className="mt-4 pt-4 border-t border-danger/30">
-          <p className="text-lg font-semibold text-foreground">
+        <div className="mt-6 pt-6 border-t border-danger/30 text-center">
+          <p className="text-4xl font-extrabold text-foreground mb-2">
             {impact.affectedPopulation.toLocaleString()}
           </p>
-          <p className="text-sm text-muted-foreground">Total people in affected zones</p>
+          <p className="text-base text-muted-foreground font-semibold">Total people living in affected zones</p>
         </div>
       </Card>
 
@@ -368,98 +428,75 @@ const ImpactForecast = ({ asteroid, city }: ImpactForecastProps) => {
         </div>
 
         <div className="space-y-4 pt-4 border-t border-warning/30">
-          <h4 className="font-bold text-foreground text-lg mb-3">Critical Infrastructure Damage</h4>
+          <h4 className="font-bold text-foreground text-lg mb-3">Critical Infrastructure Losses</h4>
           
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <p className="text-sm font-semibold text-foreground">Healthcare Systems</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• {Math.floor(impact.casualties.total / 5000)} hospitals destroyed or damaged</li>
-                <li>• Emergency services overwhelmed</li>
-                <li>• Medical supply shortages</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 5000)}</span> hospitals completely destroyed or rendered inoperable</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 2000)}</span> medical clinics and urgent care facilities wiped out</li>
+                <li>• Emergency services infrastructure obliterated, <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 800)}</span> ambulances destroyed</li>
+                <li>• Critical medical equipment and pharmaceutical supplies lost, creating immediate life-threatening shortages affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 0.3).toLocaleString()}</span> patients with chronic conditions</li>
               </ul>
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Education</p>
+              <p className="text-sm font-semibold text-foreground">Education Infrastructure</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• {Math.floor(impact.casualties.total / 3000)} schools affected</li>
-                <li>• {Math.floor(impact.affectedPopulation * 0.18).toLocaleString()} students displaced</li>
-                <li>• Academic year disrupted</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 3000)}</span> schools and universities destroyed or severely damaged</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.18).toLocaleString()}</span> students permanently displaced from educational facilities</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.025).toLocaleString()}</span> teachers and educational staff killed or critically injured</li>
+                <li>• Academic year completely disrupted for entire metropolitan area, long-term educational setbacks for <span className="font-bold text-foreground">{Math.floor(impact.affectedPopulation * 0.22).toLocaleString()}</span> young people</li>
               </ul>
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Government & Emergency</p>
+              <p className="text-sm font-semibold text-foreground">Government & Emergency Response</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• City hall and municipal buildings damaged</li>
-                <li>• {Math.floor(impact.casualties.total / 10000)} fire stations destroyed</li>
-                <li>• Police infrastructure compromised</li>
+                <li>• City hall and <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 15000)}</span> municipal buildings rendered unusable or completely destroyed</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 10000)}</span> fire stations obliterated, eliminating <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 150)}</span> fire trucks and equipment</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 8000)}</span> police stations destroyed, law enforcement capability reduced by <span className="font-bold text-foreground">75%</span></li>
+                <li>• Emergency 911 call centers and dispatch infrastructure knocked offline, preventing coordinated disaster response for <span className="font-bold text-foreground">48-72 hours</span></li>
               </ul>
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Transportation</p>
+              <p className="text-sm font-semibold text-foreground">Transportation Networks</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• Major airport operations ceased</li>
-                <li>• {Math.floor(parseFloat(impact.damageZones.mildDamage) * 100)} miles of roads destroyed</li>
-                <li>• Public transit system inoperable</li>
+                <li>• Major regional airport operations completely ceased, <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 30)}</span> aircraft destroyed or damaged</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 100)}</span> miles of roadways and highways destroyed or impassable from debris and structural collapse</li>
+                <li>• Public transit system rendered completely inoperable, affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 1.8).toLocaleString()}</span> daily commuters</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 50)}</span> bridges and overpasses collapsed, isolating entire neighborhoods and preventing evacuation routes</li>
               </ul>
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Utilities</p>
+              <p className="text-sm font-semibold text-foreground">Utilities & Essential Services</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• Power grid failure affecting {(impact.affectedPopulation * 1.5).toLocaleString()} people</li>
-                <li>• Water treatment plants damaged</li>
-                <li>• Gas lines ruptured, fire risk</li>
+                <li>• Complete power grid failure affecting <span className="font-bold text-foreground">{(impact.affectedPopulation * 2.5).toLocaleString()}</span> people across the region, estimated <span className="font-bold text-foreground">6-12 months</span> for full restoration</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.severeDestruction) * 15)}</span> water treatment plants destroyed or contaminated, creating immediate drinking water crisis</li>
+                <li>• Natural gas lines ruptured at <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 800)}</span> locations, triggering secondary explosions and fires covering <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.moderateDamage) * 12)}</span> square miles</li>
+                <li>• Telecommunications infrastructure obliterated, <span className="font-bold text-foreground">{Math.floor(parseFloat(impact.damageZones.mildDamage) * 500)}</span> cell towers destroyed, cutting off <span className="font-bold text-foreground">{(impact.affectedPopulation * 1.5).toLocaleString()}</span> people from communication</li>
               </ul>
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm font-semibold text-foreground">Business & Finance</p>
+              <p className="text-sm font-semibold text-foreground">Business & Financial Sectors</p>
               <ul className="text-sm text-muted-foreground space-y-1 pl-4">
-                <li>• {Math.floor(impact.casualties.total / 500).toLocaleString()} businesses destroyed</li>
-                <li>• Financial district operations halted</li>
-                <li>• ${impact.gdpLossBillions.toFixed(0)}B in GDP loss (40% annual GDP)</li>
+                <li>• <span className="font-bold text-foreground">{Math.floor(impact.casualties.total / 500).toLocaleString()}</span> businesses completely destroyed, resulting in immediate unemployment for <span className="font-bold text-foreground">{(impact.casualties.total * 8).toLocaleString()}</span> workers</li>
+                <li>• Financial district and banking operations completely halted, freezing <span className="font-bold text-foreground">${(impact.totalDamageBillions * 15).toFixed(0)} billion</span> in daily transactions</li>
+                <li>• Regional economic activity reduced by <span className="font-bold text-foreground">80%</span> in first month, creating ripple effects across national supply chains</li>
+                <li>• Direct GDP loss of <span className="font-bold text-foreground">${impact.gdpLossBillions.toFixed(0)} billion</span> (40% of annual city GDP), with indirect losses potentially doubling this figure over following year</li>
               </ul>
             </div>
           </div>
         </div>
       </Card>
 
-      {/* Ecological Impact */}
-      <Card className="p-6 bg-card/50 border-border">
-        <h3 className="text-lg font-bold text-foreground mb-3">Ecological & Environmental Impact</h3>
-        <ul className="space-y-2 text-muted-foreground">
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Massive dust and debris ejected into atmosphere, blocking sunlight for weeks</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Temperature drop of 5-10°C in surrounding regions for months</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Wildfires spreading up to {(parseFloat(impact.damageZones.mildDamage) * 2).toFixed(0)} km from impact</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Severe disruption to local ecosystems and food chains</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Long-term soil contamination and water supply disruption affecting millions</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Atmospheric shock waves detectable thousands of kilometers away</span>
-          </li>
-        </ul>
-      </Card>
     </div>
   );
 };
 
+export { getCityConclusion };
 export default ImpactForecast;
