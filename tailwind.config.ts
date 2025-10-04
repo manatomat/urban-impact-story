@@ -50,6 +50,7 @@ export default {
         danger: "hsl(var(--danger))",
         warning: "hsl(var(--warning))",
         info: "hsl(var(--info))",
+        success: "hsl(var(--success))",
       },
       backgroundImage: {
         'gradient-space': 'var(--gradient-space)',

@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import AsteroidGenerator from "@/components/AsteroidGenerator";
 import CitySelector, { City } from "@/components/CitySelector";
 import ImpactForecast from "@/components/ImpactForecast";
+import ImpactComparison from "@/components/ImpactComparison";
+import ImpactTimeline from "@/components/ImpactTimeline";
 import heroImage from "@/assets/asteroid-hero.jpg";
 import { Shield } from "lucide-react";
 
@@ -152,8 +154,10 @@ const Index = () => {
 
         {/* Impact Forecast */}
         {showForecast && asteroid && selectedCity && (
-          <div className="mt-12 animate-in fade-in duration-1000">
+          <div className="mt-12 space-y-8 animate-in fade-in duration-1000">
             <ImpactForecast asteroid={asteroid} city={selectedCity} />
+            <ImpactComparison asteroid={asteroid} selectedCity={selectedCity} />
+            <ImpactTimeline />
           </div>
         )}
 

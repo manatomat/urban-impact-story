@@ -33,15 +33,15 @@ const AsteroidGenerator = ({ asteroid, onGenerate }: AsteroidGeneratorProps) => 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Diameter</p>
-            <p className="text-3xl font-bold text-primary">{(asteroid.diameter * 3280.84).toFixed(0)} ft</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.diameter * 3280.84).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} ft</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Velocity</p>
-            <p className="text-3xl font-bold text-primary">{(asteroid.velocity * 0.621371).toFixed(0)} mph</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.velocity * 0.621371).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} mph</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Mass</p>
-            <p className="text-3xl font-bold text-primary">{(asteroid.mass * 0.00110231).toFixed(0)} tons</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.mass * 0.00110231).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")} tons</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Density</p>
