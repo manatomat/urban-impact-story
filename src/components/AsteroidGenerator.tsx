@@ -3,9 +3,10 @@ import { Card } from "@/components/ui/card";
 import { RefreshCw } from "lucide-react";
 
 interface AsteroidData {
-  diameter: number;
-  velocity: number;
-  mass: number;
+  diameter: number; // in km
+  velocity: number; // in km/h
+  mass: number; // in kg
+  density: number; // in g/cm³
   composition: string;
 }
 
@@ -32,19 +33,23 @@ const AsteroidGenerator = ({ asteroid, onGenerate }: AsteroidGeneratorProps) => 
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Diameter</p>
-            <p className="text-3xl font-bold text-primary">{asteroid.diameter.toFixed(0)}m</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.diameter * 3280.84).toFixed(0)} ft</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Velocity</p>
-            <p className="text-3xl font-bold text-primary">{asteroid.velocity.toFixed(1)} km/s</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.velocity * 0.621371).toFixed(0)} mph</p>
           </div>
           <div className="space-y-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Mass</p>
-            <p className="text-3xl font-bold text-primary">{(asteroid.mass / 1000000).toFixed(1)}M tons</p>
+            <p className="text-3xl font-bold text-primary">{(asteroid.mass * 0.00110231).toFixed(0)} tons</p>
           </div>
           <div className="space-y-2">
+            <p className="text-muted-foreground text-sm uppercase tracking-wider">Density</p>
+            <p className="text-3xl font-bold text-primary">{asteroid.density.toFixed(2)} g/cm³</p>
+          </div>
+          <div className="space-y-2 col-span-2">
             <p className="text-muted-foreground text-sm uppercase tracking-wider">Composition</p>
-            <p className="text-3xl font-bold text-primary">{asteroid.composition}</p>
+            <p className="text-2xl font-bold text-primary">{asteroid.composition}</p>
           </div>
         </div>
       ) : (

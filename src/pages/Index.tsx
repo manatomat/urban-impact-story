@@ -7,9 +7,10 @@ import heroImage from "@/assets/asteroid-hero.jpg";
 import { Shield } from "lucide-react";
 
 interface AsteroidData {
-  diameter: number;
-  velocity: number;
-  mass: number;
+  diameter: number; // in km
+  velocity: number; // in km/h
+  mass: number; // in kg
+  density: number; // in g/cm³
   composition: string;
 }
 
@@ -20,15 +21,69 @@ const Index = () => {
 
   const compositions = ["Stony", "Iron", "Carbonaceous", "Stony-Iron"];
 
+  // Generate asteroid with realistic statistical distribution
   const generateAsteroid = () => {
-    const diameter = Math.floor(Math.random() * 900) + 100; // 100-1000m
-    const velocity = Math.random() * 50 + 10; // 10-60 km/s
-    const density = 2500; // kg/m³ average
-    const volume = (4 / 3) * Math.PI * Math.pow(diameter / 2, 3);
-    const mass = volume * density;
+    // Diameter (km) - using weighted distribution based on quartiles
+    const diameterRand = Math.random();
+    let diameter: number;
+    if (diameterRand < 0.25) {
+      // Q1: 0.001 to 0.02
+      diameter = 0.001 + Math.random() * 0.019;
+    } else if (diameterRand < 0.5) {
+      // Q1 to Q2: 0.02 to 0.03
+      diameter = 0.02 + Math.random() * 0.01;
+    } else if (diameterRand < 0.75) {
+      // Q2 to Q3: 0.03 to 0.09
+      diameter = 0.03 + Math.random() * 0.06;
+    } else {
+      // Q3 to max: 0.09 to 0.97
+      diameter = 0.09 + Math.random() * 0.88;
+    }
+
+    // Velocity (km/h) - using weighted distribution based on quartiles
+    const velocityRand = Math.random();
+    let velocity: number;
+    if (velocityRand < 0.25) {
+      // Min to Q1: 7162 to 27000
+      velocity = 7162 + Math.random() * 19838;
+    } else if (velocityRand < 0.5) {
+      // Q1 to Q2: 27000 to 43660
+      velocity = 27000 + Math.random() * 16660;
+    } else if (velocityRand < 0.75) {
+      // Q2 to Q3: 43660 to 62400
+      velocity = 43660 + Math.random() * 18740;
+    } else {
+      // Q3 to max: 62400 to 160285
+      velocity = 62400 + Math.random() * 97885;
+    }
+
+    // Density (g/cm³) - using weighted distribution
+    const densityRand = Math.random();
+    let density: number;
+    if (densityRand < 0.25) {
+      // Min to Q1: 1.5 to 2.0
+      density = 1.5 + Math.random() * 0.5;
+    } else if (densityRand < 0.5) {
+      // Q1 to Median: 2.0 to 2.95
+      density = 2.0 + Math.random() * 0.95;
+    } else if (densityRand < 0.75) {
+      // Median to Q3: 2.95 to 3.4
+      density = 2.95 + Math.random() * 0.45;
+    } else {
+      // Q3 to max: 3.4 to 6.3
+      density = 3.4 + Math.random() * 2.9;
+    }
+
+    // Calculate mass: volume * density
+    // Volume of sphere: (4/3) * π * r³, diameter in km, convert to cm
+    const radiusCm = (diameter * 1000 * 100) / 2; // km to cm
+    const volumeCm3 = (4 / 3) * Math.PI * Math.pow(radiusCm, 3);
+    const massGrams = volumeCm3 * density;
+    const massKg = massGrams / 1000; // convert to kg
+
     const composition = compositions[Math.floor(Math.random() * compositions.length)];
 
-    setAsteroid({ diameter, velocity, mass, composition });
+    setAsteroid({ diameter, velocity, mass: massKg, density, composition });
     setShowForecast(false);
   };
 
